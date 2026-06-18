@@ -1,6 +1,7 @@
 package br.erionsistemas.com.course.entities;
 
 import br.erionsistemas.com.course.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -13,8 +14,11 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant moment;
     private OrderStatus orderStatus;
+
 
     @ManyToOne
     @JoinColumn(name = "client_id")
@@ -27,6 +31,11 @@ public class Order implements Serializable {
         this.id = id;
         this.moment = moment;
         this.orderStatus = orderStatus;
+        this.client = client;
+    }
+    public Order(Long id, Instant moment, User client) {
+        this.id = id;
+        this.moment = moment;
         this.client = client;
     }
 
