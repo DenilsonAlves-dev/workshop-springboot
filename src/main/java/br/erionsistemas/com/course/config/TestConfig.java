@@ -2,10 +2,12 @@ package br.erionsistemas.com.course.config;
 
 import br.erionsistemas.com.course.entities.Category;
 import br.erionsistemas.com.course.entities.Order;
+import br.erionsistemas.com.course.entities.Product;
 import br.erionsistemas.com.course.entities.User;
 import br.erionsistemas.com.course.entities.enums.OrderStatus;
 import br.erionsistemas.com.course.repositories.CategoryRepository;
 import br.erionsistemas.com.course.repositories.OrderRepository;
+import br.erionsistemas.com.course.repositories.ProductRepository;
 import br.erionsistemas.com.course.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -18,6 +20,8 @@ import java.util.Arrays;
 @Configuration
 @Profile("test")
 public class TestConfig implements CommandLineRunner {
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -30,6 +34,11 @@ public class TestConfig implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        Product p1 = new Product(null, "Produto 1", "400G", 2.5, "c:/Products");
+        Product p2 = new Product(null, "Produto 2", "400G", 2.5, "c:/Products");
+
+        productRepository.saveAll(Arrays.asList(p1,p2));
+
         Category cat1 = new Category(null, "Eletronics");
         Category cat2 = new Category(null, "Books");
         Category cat3 = new Category(null, "Computers");
