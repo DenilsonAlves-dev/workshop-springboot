@@ -23,6 +23,9 @@ public class Order implements Serializable {
     //@Enumerated(EnumType.STRING)
     private Integer orderStatus;
 
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)//mapeando para as duas entidades terem o mesmo ID
+    private Payment payment;
+
 
     @ManyToOne
     @JoinColumn(name = "client_id")
@@ -82,6 +85,14 @@ public class Order implements Serializable {
 
     public Set<OrderItem> getItems(){
         return items;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     @Override
