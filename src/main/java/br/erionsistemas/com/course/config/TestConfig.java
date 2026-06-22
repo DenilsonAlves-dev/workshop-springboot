@@ -34,8 +34,11 @@ public class TestConfig implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Product p1 = new Product(null, "Produto 1", "400G", 2.5, "c:/Products");
-        Product p2 = new Product(null, "Produto 2", "400G", 2.5, "c:/Products");
+        Product p1 = new Product(null, "Book", "400G", 2.5, "c:/Products");
+        Product p2 = new Product(null, "Computer 2", "400G", 2.5, "c:/Products");
+        Product p3 = new Product(null, "TV", "400G", 2.5, "c:/Products");
+        Product p4 = new Product(null, "Book", "400G", 2.5, "c:/Products");
+        Product p5 = new Product(null, "TV", "400G", 2.5, "c:/Products");
 
         productRepository.saveAll(Arrays.asList(p1,p2));
 
@@ -44,6 +47,15 @@ public class TestConfig implements CommandLineRunner {
         Category cat3 = new Category(null, "Computers");
 
         categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
+
+        p1.getCategories().add(cat2);
+        p2.getCategories().add(cat1);
+        p2.getCategories().add(cat3);
+        p3.getCategories().add(cat1);
+        p4.getCategories().add(cat2);
+        p5.getCategories().add(cat1);
+
+        productRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
 
         User u1 = new User(null, "Maria Brow", "maria@gmail.com", "988", "123");
         User u2 = new User(null, "Fernando", "fernando@gmail.com", "988", "123");
