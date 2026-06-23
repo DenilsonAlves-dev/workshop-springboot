@@ -2,8 +2,11 @@ package br.erionsistemas.com.course.services;
 
 import br.erionsistemas.com.course.entities.User;
 import br.erionsistemas.com.course.repositories.UserRepository;
+import br.erionsistemas.com.course.services.exceptions.DatabaseException;
 import br.erionsistemas.com.course.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +32,16 @@ public class UserService {
     }
 
     public void delete(Long id){
-        repository.deleteById(id);
+        Optional<User> user = repository.findById(id);
+        if(user.isPresent()){
+            try{
+                repository.deleteById(id);
+            }catch(DataIntegrityViolationException e){
+                throw new DatabaseException((e.getMessage()));
+            }
+        }else {
+            throw new ResourceNotFoundException(id);
+        }
     }
 
     public User update(Long id, User obj){
